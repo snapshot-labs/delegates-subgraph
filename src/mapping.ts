@@ -1,3 +1,4 @@
+import { dataSource } from '@graphprotocol/graph-ts'
 import { DelegateChanged, DelegateVotesChanged, Transfer } from '../generated/Token/Token'
 import {
   toDecimal,
@@ -9,9 +10,11 @@ import {
 } from './helpers'
 
 export function handleDelegateChanged(event: DelegateChanged): void {
-  let tokenHolder = getOrCreateTokenHolder(event.params.delegator.toHexString())
-  let previousDelegate = getOrCreateDelegate(event.params.fromDelegate.toHexString())
-  let newDelegate = getOrCreateDelegate(event.params.toDelegate.toHexString())
+  let governanceId = dataSource.address()
+
+  let tokenHolder = getOrCreateTokenHolder(event.params.delegator, governanceId)
+  let previousDelegate = getOrCreateDelegate(event.params.fromDelegate, governanceId)
+  let newDelegate = getOrCreateDelegate(event.params.toDelegate, governanceId)
 
   tokenHolder.delegate = newDelegate.id
   tokenHolder.save()
@@ -24,8 +27,10 @@ export function handleDelegateChanged(event: DelegateChanged): void {
 }
 
 export function handleDelegateVotesChanged(event: DelegateVotesChanged): void {
-  let governance = getGovernanceEntity()
-  let delegate = getOrCreateDelegate(event.params.delegate.toHexString())
+  let governanceId = dataSource.address()
+
+  let governance = getGovernanceEntity(governanceId)
+  let delegate = getOrCreateDelegate(event.params.delegate, governanceId)
   let votesDifference = event.params.newBalance.minus(event.params.previousBalance)
 
   delegate.delegatedVotesRaw = event.params.newBalance
@@ -46,9 +51,11 @@ export function handleDelegateVotesChanged(event: DelegateVotesChanged): void {
 }
 
 export function handleTransfer(event: Transfer): void {
-  let fromHolder = getOrCreateTokenHolder(event.params.from.toHexString())
-  let toHolder = getOrCreateTokenHolder(event.params.to.toHexString())
-  let governance = getGovernanceEntity()
+  let governanceId = dataSource.address()
+
+  let fromHolder = getOrCreateTokenHolder(event.params.from, governanceId)
+  let toHolder = getOrCreateTokenHolder(event.params.to, governanceId)
+  let governance = getGovernanceEntity(governanceId)
 
   if (event.params.from.toHexString() != ZERO_ADDRESS) {
     let fromHolderPreviousBalance = fromHolder.tokenBalanceRaw
