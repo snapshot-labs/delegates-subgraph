@@ -1,89 +1,54 @@
-import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
-import { TokenHolder, Delegate, Governance } from '../generated/schema';
-
-export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+import { Address, BigDecimal, BigInt } from '@graphprotocol/graph-ts';
+import { Delegate, Governance } from '../generated/schema';
 
 export let BIGINT_ZERO = BigInt.fromI32(0);
 
 export let BIGDECIMAL_ZERO = new BigDecimal(BIGINT_ZERO);
 
-export const DEFAULT_DECIMALS = 18
+export let DEFAULT_DECIMALS = 18;
+
+export let ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export function toDecimal(value: BigInt, decimals: number = DEFAULT_DECIMALS): BigDecimal {
   let precision = BigInt.fromI32(10)
     .pow(<u8>decimals)
-    .toBigDecimal()
+    .toBigDecimal();
 
-  return value.divDecimal(precision)
+  return value.divDecimal(precision);
 }
 
-export function getOrCreateTokenHolder(
-  id: String,
-  createIfNotFound: boolean = true,
-  save: boolean = true
-): TokenHolder {
-  let tokenHolder = TokenHolder.load(id as string);
+export function getDelegate(id: Address, governanceId: Address): Delegate {
+  let entityId = `${governanceId.toHexString()}/${id.toHexString()}`;
 
-  if (tokenHolder == null && createIfNotFound) {
-    tokenHolder = new TokenHolder(id as string);
-    tokenHolder.tokenBalanceRaw = BIGINT_ZERO;
-    tokenHolder.tokenBalance = BIGDECIMAL_ZERO;
-    tokenHolder.totalTokensHeldRaw = BIGINT_ZERO;
-    tokenHolder.totalTokensHeld = BIGDECIMAL_ZERO;
+  let delegate = Delegate.load(entityId);
 
-    if (id != ZERO_ADDRESS) {
-      let governance = getGovernanceEntity();
-      governance.totalTokenHolders += 1;
-      governance.save();
-    }
-
-    if (save) {
-      tokenHolder.save();
-    }
-  }
-
-  return tokenHolder as TokenHolder;
-}
-
-export function getOrCreateDelegate(
-  id: String,
-  createIfNotFound: boolean = true,
-  save: boolean = true
-): Delegate {
-  let delegate = Delegate.load(id as string);
-
-  if (delegate == null && createIfNotFound) {
-    delegate = new Delegate(id as string);
+  if (delegate == null) {
+    delegate = new Delegate(entityId);
+    delegate.governance = governanceId.toHexString();
+    delegate.user = id;
     delegate.delegatedVotesRaw = BIGINT_ZERO;
     delegate.delegatedVotes = BIGDECIMAL_ZERO;
     delegate.tokenHoldersRepresentedAmount = 0;
 
-    if (id != ZERO_ADDRESS) {
-      let governance = getGovernanceEntity();
+    if (id.toHexString() != ZERO_ADDRESS) {
+      let governance = getGovernance(governanceId);
       governance.totalDelegates += 1;
       governance.save();
     }
-
-    if (save) {
-      delegate.save();
-    }
   }
 
-  return delegate as Delegate;
+  return delegate;
 }
 
-export function getGovernanceEntity(): Governance {
-  let governance = Governance.load('GOVERNANCE');
+export function getGovernance(governanceId: Address): Governance {
+  let governance = Governance.load(governanceId.toHexString());
 
   if (governance == null) {
-    governance = new Governance('GOVERNANCE');
-    governance.totalTokenHolders = 0;
-    governance.currentTokenHolders = 0;
+    governance = new Governance(governanceId.toHexString());
     governance.currentDelegates = 0;
-    governance.totalDelegates = 0;
     governance.delegatedVotesRaw = BIGINT_ZERO;
     governance.delegatedVotes = BIGDECIMAL_ZERO;
   }
 
-  return governance as Governance;
+  return governance
 }
