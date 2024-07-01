@@ -1,11 +1,12 @@
 {
   "name": "delegates-subgraph",
-  "version": "0.0.2",
+  "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy-studio": "graph deploy --studio -l v${npm_package_version}",
-    "deploy-studio-mainnet": "yarn deploy-studio delegates-sandbox"
+    "deploy-studio-mainnet": "yarn deploy-studio delegates"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.50.1",

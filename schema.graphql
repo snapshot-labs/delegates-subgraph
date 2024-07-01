@@ -1,30 +1,15 @@
 type Governance @entity {
-  id: ID! # Unique entity used to keep track of common aggregated data
-  currentTokenHolders: Int! # Total number of token holders currently
-  currentDelegates: Int! # Total number of delegates participating on the governance currently
-  totalTokenHolders: Int! # Total number of token holders
-  totalDelegates: Int! # Total number of delegates that held delegated votes
-  delegatedVotesRaw: BigInt! # Total number of votes delegated expressed in the smallest unit of the Compound Token
-  delegatedVotes: BigDecimal! # Total number of votes delegated expressed as a BigDecimal normalized value for the Compound Token
-}
-
-type TokenHolder @entity {
-  id: ID! # A TokenHolder is any address that holds any amount of Compound Tokens, the id used is the blockchain address.
-  governance: Governance!
-  user: Bytes!
-  delegate: Delegate # Delegate address of the token holder which will participate in votings. Delegates don't need to hold any tokens and can even be the token holder itself.
-  tokenBalanceRaw: BigInt! # Compound Token balance of this address expressed in the smallest unit of the CompoundToken
-  tokenBalance: BigDecimal! # Compound Token balance of this address expressed as a BigDecimal normalized value for the Compound Token
-  totalTokensHeldRaw: BigInt! # Total amount of Compound Token ever held by this address expressed in the smallest unit of the CompoundToken
-  totalTokensHeld: BigDecimal! # Total amount of Compound Token ever held by this address expressed as a BigDecimal normalized value for the Compound Token
+  id: ID!
+  currentDelegates: Int!
+  delegatedVotesRaw: BigInt!
+  delegatedVotes: BigDecimal!
 }
 
 type Delegate @entity {
-  id: ID! # A Delegate is any address that has been delegated with voting tokens by a token holder, id is the blockchain address of said delegate
+  id: ID!
   governance: Governance!
   user: Bytes!
-  delegatedVotesRaw: BigInt! # Amount of votes delegated to this delegate to be used on proposal votings expressed in the smallest unit of the CompoundToken
-  delegatedVotes: BigDecimal! # Amount of votes delegated to this delegate to be used on proposal votings expressed as a BigDecimal normalized value for the Compound Token
+  delegatedVotesRaw: BigInt!
+  delegatedVotes: BigDecimal!
   tokenHoldersRepresentedAmount: Int!
-  tokenHoldersRepresented: [TokenHolder!]! @derivedFrom(field: "delegate") # Token holders that this delegate represents
 }
