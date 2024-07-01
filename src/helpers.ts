@@ -7,6 +7,8 @@ export let BIGDECIMAL_ZERO = new BigDecimal(BIGINT_ZERO);
 
 export let DEFAULT_DECIMALS = 18;
 
+export let ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 export function toDecimal(value: BigInt, decimals: number = DEFAULT_DECIMALS): BigDecimal {
   let precision = BigInt.fromI32(10)
     .pow(<u8>decimals)
@@ -27,6 +29,12 @@ export function getDelegate(id: Address, governanceId: Address): Delegate {
     delegate.delegatedVotesRaw = BIGINT_ZERO;
     delegate.delegatedVotes = BIGDECIMAL_ZERO;
     delegate.tokenHoldersRepresentedAmount = 0;
+
+    if (id.toHexString() != ZERO_ADDRESS) {
+      let governance = getGovernance(governanceId);
+      governance.currentDelegates += 1;
+      governance.save();
+    }
   }
 
   return delegate;
