@@ -1,6 +1,7 @@
 type Governance @entity {
   id: ID!
   currentDelegates: Int!
+  totalDelegates: Int!
   delegatedVotesRaw: BigInt!
   delegatedVotes: BigDecimal!
 }

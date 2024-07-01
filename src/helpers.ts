@@ -32,7 +32,7 @@ export function getDelegate(id: Address, governanceId: Address): Delegate {
 
     if (id.toHexString() != ZERO_ADDRESS) {
       let governance = getGovernance(governanceId);
-      governance.currentDelegates += 1;
+      governance.totalDelegates += 1;
       governance.save();
     }
   }
