@@ -1,6 +1,10 @@
-import { dataSource } from '@graphprotocol/graph-ts';
+import { Address, dataSource } from '@graphprotocol/graph-ts';
 import { DelegateChanged, DelegateVotesChanged } from '../generated/Token/Token';
 import { toDecimal, getDelegate, getGovernance, BIGINT_ZERO } from './helpers';
+import { ContractDeployed } from "../generated/GeneralPurposeFactory/GeneralPurposeFactory";
+import { GenericERC20Votes } from "../generated/templates";
+
+const GENERIC_ERC20_VOTES_IMPLEM = Address.fromString('0x9814e1644919941adafc48ff3193ed1f76a2e3e1'); // Address on ethereum mainnet
 
 export function handleDelegateChanged(event: DelegateChanged): void {
   let governanceId = dataSource.address();
@@ -36,4 +40,10 @@ export function handleDelegateVotesChanged(event: DelegateVotesChanged): void {
   governance.delegatedVotesRaw = governance.delegatedVotesRaw.plus(votesDifference);
   governance.delegatedVotes = toDecimal(governance.delegatedVotesRaw);
   governance.save();
+}
+
+export function handleContractDeployed(event: ContractDeployed): void {
+  if (event.params.implementation.equals(GENERIC_ERC20_VOTES_IMPLEM)) {
+    GenericERC20Votes.create(event.params.contractAddress);
+  }
 }
