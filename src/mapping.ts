@@ -4,7 +4,7 @@ import { toDecimal, getDelegate, getGovernance, BIGINT_ZERO } from './helpers';
 import { ContractDeployed } from "../generated/GeneralPurposeFactory/GeneralPurposeFactory";
 import { GenericERC20Votes } from "../generated/templates";
 
-const GENERIC_ERC20_VOTES_IMPLEM = Address.fromString('0x9814e1644919941adafc48ff3193ed1f76a2e3e1'); // Address on ethereum mainnet
+const GENERIC_ERC20_VOTES_IMPLEM = Address.fromString('0x75DB1EEE7b03A0C9BcAD50Cb381B068c209c81ef'); // Address should be the same on all networks
 
 export function handleDelegateChanged(event: DelegateChanged): void {
   let governanceId = dataSource.address();
