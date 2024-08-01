@@ -49,3 +49,75 @@ dataSources:
         - event: DelegateVotesChanged(indexed address,uint256,uint256)
           handler: handleDelegateVotesChanged
       file: ./src/mapping.ts
+
+  - kind: ethereum
+    name: UNI
+    network: mainnet
+    source:
+      abi: Token
+      address: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+      startBlock: 10861674
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Delegate
+        - TokenHolder
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/mapping.ts
+
+  - kind: ethereum
+    name: ENS
+    network: mainnet
+    source:
+      abi: Token
+      address: "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72"
+      startBlock: 13533418
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Delegate
+        - TokenHolder
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/mapping.ts
+
+  - kind: ethereum
+    name: GTC
+    network: mainnet
+    source:
+      abi: Token
+      address: "0xDe30da39c46104798bB5aA3fe8B9e0e1F348163F"
+      startBlock: 12422079
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Delegate
+        - TokenHolder
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/mapping.ts
