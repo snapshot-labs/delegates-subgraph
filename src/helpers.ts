@@ -25,7 +25,7 @@ export function getDelegate(id: Address, governanceId: Address): Delegate {
   if (delegate == null) {
     delegate = new Delegate(entityId);
     delegate.governance = governanceId.toHexString();
-    delegate.user = id;
+    delegate.user = id.toHexString();
     delegate.delegatedVotesRaw = BIGINT_ZERO;
     delegate.delegatedVotes = BIGDECIMAL_ZERO;
     delegate.tokenHoldersRepresentedAmount = 0;
