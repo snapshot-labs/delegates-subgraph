@@ -9,7 +9,7 @@ type Governance @entity {
 type Delegate @entity {
   id: ID!
   governance: Governance!
-  user: Bytes!
+  user: String!
   delegatedVotesRaw: BigInt!
   delegatedVotes: BigDecimal!
   tokenHoldersRepresentedAmount: Int!
