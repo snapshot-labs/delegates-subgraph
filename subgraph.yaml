@@ -123,6 +123,30 @@ dataSources:
       file: ./src/mapping.ts
 
   - kind: ethereum
+    name: SHU
+    network: mainnet
+    source:
+      abi: Token
+      address: "0xe485E2f1bab389C08721B291f6b59780feC83Fd7"
+      startBlock: 19021394
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Delegate
+        - TokenHolder
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/mapping.ts
+
+  - kind: ethereum
     name: GeneralPurposeFactory
     network: mainnet
     source:
