@@ -3,12 +3,10 @@ import { DelegateChanged, DelegateVotesChanged } from '../generated/templates/Ge
 import { toDecimal, getDelegate, getGovernance, BIGINT_ZERO } from './helpers';
 import { ContractDeployed } from '../generated/GeneralPurposeFactory/GeneralPurposeFactory';
 import { GenericERC20Votes } from "../generated/templates";
-import { log } from '@graphprotocol/graph-ts';
 
 const GENERIC_ERC20_VOTES_IMPLEM = Address.fromString('0x75DB1EEE7b03A0C9BcAD50Cb381B068c209c81ef'); // Address should be the same on all networks
 
 export function handleDelegateChanged(event: DelegateChanged): void {
-  log.warning("DelegateChanged event: {}", [event.address.toHex()]);
   let governanceId = dataSource.address();
 
   let previousDelegate = getDelegate(event.params.fromDelegate, governanceId);
@@ -21,8 +19,6 @@ export function handleDelegateChanged(event: DelegateChanged): void {
 }
 
 export function handleDelegateVotesChanged(event: DelegateVotesChanged): void {
-  log.warning("DelegateChanged event: {}", [event.address.toHex()]);
-
   let governanceId = dataSource.address();
 
   let governance = getGovernance(governanceId);
@@ -47,8 +43,6 @@ export function handleDelegateVotesChanged(event: DelegateVotesChanged): void {
 }
 
 export function handleContractDeployed(event: ContractDeployed): void {
-  log.warning("Handle contract deployed: {}", [event.address.toHex()]);
-
   if (event.params.implementation.equals(GENERIC_ERC20_VOTES_IMPLEM)) {
     GenericERC20Votes.create(event.params.contractAddress);
   }
