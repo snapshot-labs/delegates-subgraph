@@ -2,7 +2,7 @@ import { Address, dataSource } from '@graphprotocol/graph-ts';
 import { DelegateChanged, DelegateVotesChanged } from '../generated/templates/GenericERC20Votes/Token';
 import { toDecimal, getDelegate, getGovernance, BIGINT_ZERO } from './helpers';
 import { ContractDeployed } from '../generated/GeneralPurposeFactory/GeneralPurposeFactory';
-import { GenericERC20Votes } from "../generated/templates";
+import { GenericERC20Votes } from '../generated/templates';
 
 const GENERIC_ERC20_VOTES_IMPLEM = Address.fromString('0x75DB1EEE7b03A0C9BcAD50Cb381B068c209c81ef'); // Address should be the same on all networks
 
