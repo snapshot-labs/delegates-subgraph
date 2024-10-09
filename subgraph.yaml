@@ -145,3 +145,47 @@ dataSources:
         - event: DelegateVotesChanged(indexed address,uint256,uint256)
           handler: handleDelegateVotesChanged
       file: ./src/mapping.ts
+
+  - kind: ethereum
+    name: GeneralPurposeFactory
+    network: mainnet
+    source:
+      abi: GeneralPurposeFactory
+      address: "0x0f77c58bb8a75ed393123f9047e1787db637b251"
+      startBlock: 20333097
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ContractDeployed
+      abis:
+        - name: GeneralPurposeFactory
+          file: ./abis/GeneralPurposeFactory.json
+      eventHandlers:
+        - event: ContractDeployed(address,address)
+          handler: handleContractDeployed
+      file: ./src/mapping.ts
+
+templates:
+  - kind: ethereum
+    name: GenericERC20Votes
+    network: mainnet
+    source:
+      abi: Token
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Delegate
+        - TokenHolder
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/mapping.ts
