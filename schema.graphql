@@ -1,4 +1,4 @@
-type Governance @entity {
+type Governance @entity(immutable: false) {
   id: ID!
   currentDelegates: Int!
   totalDelegates: Int!
@@ -6,7 +6,7 @@ type Governance @entity {
   delegatedVotes: BigDecimal!
 }
 
-type Delegate @entity {
+type Delegate @entity(immutable: false) {
   id: ID!
   governance: Governance!
   user: String!

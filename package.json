@@ -9,8 +9,8 @@
     "deploy-studio-mainnet": "yarn deploy-studio delegates"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.50.1",
-    "@graphprotocol/graph-ts": "0.29.1",
+    "@graphprotocol/graph-cli": "0.98.1",
+    "@graphprotocol/graph-ts": "0.38.2",
     "assemblyscript-json": "^1.1.0"
   }
 }
