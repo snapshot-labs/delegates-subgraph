@@ -6,7 +6,8 @@
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy-studio": "graph deploy --studio -l v${npm_package_version}",
-    "deploy-studio-mainnet": "yarn deploy-studio delegates"
+    "deploy-studio-mainnet": "yarn deploy-studio delegates",
+    "deploy-studio-arbitrum": "graph codegen subgraph.arbitrum.yaml && graph build subgraph.arbitrum.yaml && graph deploy -l v${npm_package_version} delegates-arbitrum subgraph.arbitrum.yaml"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.98.1",
