@@ -1,0 +1,16 @@
+type Governance @entity(immutable: false) {
+  id: Bytes!
+  currentDelegates: Int!
+  totalDelegates: Int!
+  delegatedVotesRaw: BigInt!
+  delegatedVotes: BigDecimal!
+}
+
+type Delegate @entity(immutable: false) {
+  id: Bytes!
+  governance: Governance!
+  user: Bytes!
+  delegatedVotesRaw: BigInt!
+  delegatedVotes: BigDecimal!
+  tokenHoldersRepresentedAmount: Int!
+}

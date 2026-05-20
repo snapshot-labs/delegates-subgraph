@@ -1,0 +1,52 @@
+specVersion: 1.3.0
+schema:
+  file: ./schema.arbitrum.graphql
+indexerHints:
+  prune: auto
+dataSources:
+  - kind: ethereum
+    name: ARB
+    network: arbitrum-one
+    source:
+      abi: Token
+      address: "0x912CE59144191C1204E64559FE8253a0e49E6548"
+      startBlock: 70398215
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Delegate
+        - Governance
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/mapping-arbitrum.ts
+  - kind: ethereum
+    name: RAIN
+    network: arbitrum-one
+    source:
+      abi: Token
+      address: "0x25118290e6A5f4139381D072181157035864099d"
+      startBlock: 372507022
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Delegate
+        - Governance
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/mapping-arbitrum.ts
